@@ -11,12 +11,24 @@ def rotate():
   """
 
   chores=[i["chore"] for i in data.people]
-  newchores=chores[-1]+chores[:-1]
+  newchores=chores[-1:]+chores[:-1]
 
   #replace chores in data.py module and website
+
+  with open("./status.py","r") as instatus:
+    status=instatus.read()
+  with open("./index.html","r") as inindex:
+    index=inindex.read()
+
   for i in range(4):
-    os.system("""awk '{if($2=="%s") {$2="%s"} print $0}' status.py"""%(chores[i], newchores[i]))
-    os.system("""awk '{if($2=="%s") {$2="%s"} print $0}' index.html"""%(chores[i], newchores[i]))
+    status.replace(chores[i],newchores[i])
+    index.replace(chores[i], newchores[i])
+
+  with open("./status.py","w+") as outstatus:
+    outstatus.write(status)
+  with open("./index.html","w+") as outindex:
+    outindex.write(index)
+
 
 
 def notify(who, chore):
@@ -44,5 +56,4 @@ def notify(who, chore):
       s.close()
 
 rotate()
-updateweb()
-notify()
+#notify()
