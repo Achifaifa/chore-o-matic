@@ -26,14 +26,19 @@ def rotate():
     index=index[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
     print chores[i], newchores[i]
 
+  # Change date in index
+  week=datetime.date.today().isocalendar()[1]
+  t=week-1
+  prevweek=t if t>0 else 52
+  index=index.replace("Semana %i"%prevweek, "Semana %i"%week)
+
   with open("./data.py","w+") as outstatus:
     outstatus.write(status)
   with open("./index.html","w+") as outindex:
     outindex.write(index)
 
 
-
-def notify(who, chore):
+def notify(who):
   """
   sends an email to everyone with their assigned tasks
   """
@@ -61,3 +66,6 @@ def notify(who, chore):
 rotate()
 # for person in data["people"]:
 #   notify(person)
+
+#testing
+#notify(data["people"][0])
