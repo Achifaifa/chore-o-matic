@@ -12,19 +12,21 @@ def rotate():
 
   chores=[i["chore"] for i in data.people]
   newchores=chores[-1:]+chores[:-1]
+  print chores, newchores
 
   #replace chores in data.py module and website
 
-  with open("./status.py","r") as instatus:
+  with open("./data.py","r") as instatus:
     status=instatus.read()
   with open("./index.html","r") as inindex:
     index=inindex.read()
 
   for i in range(4):
-    status.replace(chores[i],newchores[i])
-    index.replace(chores[i], newchores[i])
+    status=status[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
+    index=index[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
+    print chores[i], newchores[i]
 
-  with open("./status.py","w+") as outstatus:
+  with open("./data.py","w+") as outstatus:
     outstatus.write(status)
   with open("./index.html","w+") as outindex:
     outindex.write(index)
@@ -37,7 +39,7 @@ def notify(who, chore):
   """
 
   # Compose email
-  txt="Hola %s!\nEsta semana te toca %s, recuerda hacerlo antes del lunes :)\n"%(who["name"],chore)
+  txt="Hola %s!\nEsta semana te toca %s, recuerda hacerlo antes del lunes :)\n"%(who["name"],who["chore"])
   mensaje=MIMEText(txt)
   mensaje['subject']="Tareas para esta semana"
   mensaje['from']="Chore-O-Matic"
@@ -55,5 +57,7 @@ def notify(who, chore):
   finally:
       s.close()
 
+
 rotate()
-#notify()
+# for person in data["people"]:
+#   notify(person)
