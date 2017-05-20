@@ -1,6 +1,6 @@
 #! /usr/bin/env/python
 
-import datetime, os, time
+import datetime, os, smtplib, time
 from email.mime.text import MIMEText
 # Import file with emails, names, etc
 import data
@@ -22,8 +22,8 @@ def rotate():
     index=inindex.read()
 
   for i in range(4):
-    status=status[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
-    index=index[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
+    status=status[::-1].replace(chores[i].split()[-1][::-1],newchores[i].split()[-1][::-1],1)[::-1]
+    index=index[::-1].replace(chores[i].split()[-1][::-1],newchores[i].split()[-1][::-1],1)[::-1]
     print chores[i], newchores[i]
 
   # Change date in index
@@ -44,7 +44,7 @@ def notify(who):
   """
 
   # Compose email
-  txt="Hola %s!\nEsta semana te toca %s, recuerda hacerlo antes del lunes :)\n"%(who["name"],who["chore"])
+  txt="Hola %s!\n\nEsta semana te toca %s, recuerda hacerlo antes del lunes :)\n"%(who["name"],who["chore"])
   mensaje=MIMEText(txt)
   mensaje['subject']="Tareas para esta semana"
   mensaje['from']="Chore-O-Matic"
@@ -68,4 +68,4 @@ rotate()
 #   notify(person)
 
 #testing
-#notify(data["people"][0])
+notify(data.people[0])
