@@ -24,7 +24,7 @@ def rotate():
   for i in range(4):
     status=status[::-1].replace(chores[i][::-1],newchores[i][::-1],1)[::-1]
     index=index[::-1].replace(chores[i].split()[-1][::-1],newchores[i].split()[-1][::-1],1)[::-1]
-    print "Swapping...\nPrevious: %s\nNew:%s\n"%(", ".join(chores[i]), ", ".join(newchores[i]))
+    print "Swapping...\nPrevious: %s\nNew:%s\n"%(chores[i], newchores[i])
 
   # Change date in index
   week=datetime.date.today().isocalendar()[1]
