@@ -55,18 +55,14 @@ def notify(who):
   s.ehlo()
   s.starttls()
   s.login(data.emailnode["address"], data.emailnode["password"])
-  try:
-    s.sendmail(data.emailnode["address"], who["email"], mensaje.as_string())
-  except: 
-    pass #YOLO
-  finally:
-      s.close()
+  s.sendmail(data.emailnode["address"], who["email"], mensaje.as_string())
+  s.close()
 
 
 print "Rotating chores..."
 try:
   rotate()
-  reload data #Data is changed in the .py file, so we have to reload it
+  reload(data) #Data is changed in the .py file, so we have to reload it
   print "done"
 except Exception as e:
   print "failed, quitting"
